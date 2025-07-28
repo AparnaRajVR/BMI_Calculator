@@ -1,17 +1,17 @@
-import 'package:bmi_calculator/bottom_button.dart';
-import 'package:bmi_calculator/calculator.dart';
-import 'package:bmi_calculator/card_data.dart';
+import 'package:bmi_calculator/widgets/bottom_button.dart';
+import 'package:bmi_calculator/widgets/calculator.dart';
+import 'package:bmi_calculator/widgets/card_data.dart';
 import 'package:bmi_calculator/const/constant.dart';
-import 'package:bmi_calculator/resultpage.dart';
-import 'package:bmi_calculator/reusable_card.dart';
-import 'package:bmi_calculator/round_button.dart';
+import 'package:bmi_calculator/screens/resultpage.dart';
+import 'package:bmi_calculator/widgets/custom_appbar.dart';
+import 'package:bmi_calculator/widgets/reusable_card.dart';
+import 'package:bmi_calculator/widgets/round_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-
-int userheight=180;
-int userweight=50;
-int userage=16;
+int userheight = 180;
+int userweight = 50;
+int userage = 16;
 
 void changecolor(int gender) {
   if (gender == 1) {
@@ -54,31 +54,29 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  
-                      child: GestureDetector(
-                        onTap:() {
-                          setState(() {
-                            changecolor(2);
-                          });
-                        },
-                        child: ReusableCard(
-                          colour: maleinactivecolor,
-                          cardchild: CardData(
-                            icon: FontAwesomeIcons.mars,
-                            label: "Male",
-                          ),
-                        ),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        changecolor(2);
+                      });
+                    },
+                    child: ReusableCard(
+                      colour: maleinactivecolor,
+                      cardchild: CardData(
+                        icon: FontAwesomeIcons.mars,
+                        label: "Male",
                       ),
                     ),
-                  
-                
+                  ),
+                ),
 
                 Expanded(
-                  child: GestureDetector( onTap: () {
-                    setState(() {
-                      changecolor(1);
-                    });
-                  },
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        changecolor(1);
+                      });
+                    },
                     child: ReusableCard(
                       colour: femaleinactivecolor,
                       cardchild: CardData(
@@ -116,19 +114,20 @@ class _InputPageState extends State<InputPage> {
                   ),
                   SliderTheme(
                     data: SliderThemeData(
-                      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 11.0)
+                      thumbShape: RoundSliderThumbShape(
+                        enabledThumbRadius: 11.0,
+                      ),
                     ),
                     child: Slider(
                       value: userheight.toDouble(),
                       min: 80.0,
                       max: 220.0,
-                      activeColor:containercolor,
-                       inactiveColor:Color(0xff969AB9) ,
+                      activeColor: containercolor,
+                      inactiveColor: Color(0xff969AB9),
                       onChanged: (double newserheight) {
                         setState(() {
-                          userheight=newserheight.round();
+                          userheight = newserheight.round();
                         });
-                        
                       },
                     ),
                   ),
@@ -152,19 +151,24 @@ class _InputPageState extends State<InputPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Roundbutton(icon: FontAwesomeIcons.minus, onPressed: (){
-                              setState(() {
-                                userweight--;
-                              });
-                            }
+                            Roundbutton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  userweight--;
+                                });
+                              },
                             ),
-                            
+
                             SizedBox(width: 10),
-                          Roundbutton(icon: FontAwesomeIcons.plus, onPressed: (){
-                            setState(() {
-                              userweight++;
-                            });
-                          })
+                            Roundbutton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  userweight++;
+                                });
+                              },
+                            ),
                           ],
                         ),
                       ],
@@ -182,19 +186,23 @@ class _InputPageState extends State<InputPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Roundbutton(icon: FontAwesomeIcons.minus, onPressed: (){
-                              setState(() {
-                                userage--;
-                              });
-                            }
+                            Roundbutton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  userage--;
+                                });
+                              },
                             ),
-                            
+
                             SizedBox(width: 10),
-                            Roundbutton(icon: FontAwesomeIcons.plus, onPressed: (){
-                              setState(() {
-                                userage++;
-                              });
-                            }
+                            Roundbutton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  userage++;
+                                });
+                              },
                             ),
                           ],
                         ),
@@ -205,45 +213,28 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-       bottombutton(buttonlabbel: "Calculate BMI", onpress:() {
-
-        Calculator calc =Calculator(userheight: userheight, userweight: userweight);
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Resultpage(
-          
-          resultvalue: calc.bmicalculate(),
-          actualresult: calc.getresult(),
-          explanation: calc.resultexplanation(),
-
-        )));
-
-       })
+          bottombutton(
+            buttonlabbel: "Calculate BMI",
+            onpress: () {
+              Calculator calc = Calculator(
+                userheight: userheight,
+                userweight: userweight,
+              );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => Resultpage(
+                        resultvalue: calc.bmicalculate(),
+                        actualresult: calc.getresult(),
+                        explanation: calc.resultexplanation(),
+                      ),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
   }
 }
-
-class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppbar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      title: Text("BMI Calculator",style: TextStyle(
-        fontSize: 25,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-        
-      
-      ),),
-      centerTitle: true,
-    );
-  }
-  
-  @override
- 
-  Size get preferredSize => Size.fromHeight(56);
-}
-
